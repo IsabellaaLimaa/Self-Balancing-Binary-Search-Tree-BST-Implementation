@@ -19,7 +19,6 @@ class Node:
     def insert(self, word, meaning):
         """
         Insert a word and its meaning into the tree. If inserting a duplicate word updates the meaning.
-        
         Args:
             word (str): The word to insert.
             meaning (str): The meaning of the word.
@@ -31,7 +30,7 @@ class Node:
                 self.left = self.left.insert(word, meaning)
             else:
                 self.left = Node(word, meaning)
-        else:
+        else: # word > self.word
             if self.right:
                 self.right = self.right.insert(word, meaning)
             else:
@@ -39,6 +38,7 @@ class Node:
 
         left_w, right_w = self.update_weight()
 
+        # Self-balancing logic: rebalance if subtree is too unbalanced
         if (max(left_w, right_w) + 1) / (min(left_w, right_w) + 1) >= 3:
             if left_w > right_w:
                 return self.rotate_right()
@@ -71,10 +71,8 @@ class Node:
     def search(self, word):
         """
         Search for a word in the tree and return its meaning.
-        
         Args:
             word (str): The word to search for.
-        
         Returns:
             str: The meaning of the word if found, else return None'
         """
